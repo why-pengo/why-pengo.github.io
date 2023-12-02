@@ -126,7 +126,7 @@ a:active {
 
 @keyframes linksmove {
     from {
-        left: -300px;
+        left: -320px;
     }
     to {
         left: 300px;
