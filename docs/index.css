@@ -18,12 +18,33 @@ a:active {
     color: #ffffff;
 }
 
+@media (width <= 430px) {
+    #animated_div {
+        animation: animated_div_430 5s 1;
+    }
+
+    .links {
+        width: 250px;
+        left: -400px;
+        animation: linksmove_430 5s;
+    }
+}
+
+@media (width > 430px) {
+    #animated_div {
+        animation: animated_div_431 5s 1;
+    }
+
+    .links {
+        width: 300px;
+        left: -400px;
+        animation: linksmove_431 5s;
+    }
+}
+
 #animated_div {
-    /* Use a flexbox layout */
     display: flex;
-    /* Make a horizontal flexbox (the default) */
     flex-direction: row;
-    /* The important part: vertically center the items */
     align-items: center;
     width: 160px;
     height: 160px;
@@ -33,16 +54,41 @@ a:active {
     font-weight: bold;
     font-size: 20px;
     padding: 10px;
-    animation: animated_div 5s 1;
-    -moz-animation: animated_div 5s 1;
-    -webkit-animation: animated_div 5s 1;
-    -o-animation: animated_div 5s 1;
+    /*animation: animated_div 5s 1;*/
     border: 0.3em double #4e54c8;
     border-radius: 80px; /* half the height and width */
-    -webkit-border-radius: 80px;
 }
 
-@keyframes animated_div {
+@keyframes animated_div_430 {
+    0% {
+        transform: rotate(0deg);
+        left: 0;
+    }
+    25% {
+        transform: rotate(20deg);
+        left: 0;
+    }
+    50% {
+        transform: rotate(0deg);
+        left: 200px;
+    }
+    55% {
+        transform: rotate(0deg);
+        left: 200px;
+    }
+    70% {
+        transform: rotate(0deg);
+        left: 200px;
+        background: #c8c24e;
+        color: #c8c24e;
+    }
+    100% {
+        transform: rotate(-360deg);
+        left: 0;
+    }
+}
+
+@keyframes animated_div_431 {
     0% {
         transform: rotate(0deg);
         left: 0;
@@ -72,14 +118,14 @@ a:active {
 }
 
 .links {
-    width: 320px;
+    /*width: 320px;*/
     height: 50px;
     background: #8f94fb;
     border: 0.3em double #4e54c8;
     font-weight: bold;
     position: relative;
-    left: -320px;
-    animation: linksmove 5s;
+    /*left: -320px;*/
+    /*animation: linksmove 5s;*/
     animation-fill-mode: forwards;
     animation-delay: 5s;
 }
@@ -124,7 +170,16 @@ a:active {
     animation-timing-function: ease-in-out;
 }
 
-@keyframes linksmove {
+@keyframes linksmove_430 {
+    from {
+        left: -320px;
+    }
+    to {
+        left: 100px;
+    }
+}
+
+@keyframes linksmove_431 {
     from {
         left: -320px;
     }
