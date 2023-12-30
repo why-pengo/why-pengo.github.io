@@ -24,7 +24,7 @@ a:active {
     }
 
     .links {
-        width: 250px;
+        width: 265px;
         left: -400px;
         animation: linksmove_430 5s;
     }
