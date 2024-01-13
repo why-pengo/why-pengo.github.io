@@ -118,6 +118,7 @@ a:active {
 }
 
 .links {
+    cursor: pointer;
     /*width: 320px;*/
     height: 50px;
     background: #8f94fb;
