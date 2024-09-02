@@ -70,15 +70,15 @@ a:active {
     }
     50% {
         transform: rotate(0deg);
-        left: 200px;
+        left: 40vw;
     }
     55% {
         transform: rotate(0deg);
-        left: 200px;
+        left: 40vw;
     }
     70% {
         transform: rotate(0deg);
-        left: 200px;
+        left: 40vw;
         background: #c8c24e;
         color: #c8c24e;
     }
@@ -99,15 +99,15 @@ a:active {
     }
     50% {
         transform: rotate(0deg);
-        left: 500px;
+        left: 80vw;
     }
     55% {
         transform: rotate(0deg);
-        left: 500px;
+        left: 80vw;
     }
     70% {
         transform: rotate(0deg);
-        left: 500px;
+        left: 80vw;
         background: #c8c24e;
         color: #c8c24e;
     }
@@ -170,6 +170,14 @@ a:active {
     animation-timing-function: ease-out;
 }
 
+#ease-out2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    animation-timing-function: ease-out;
+}
+
 #ease-in-out {
     display: flex;
     flex-direction: row;
@@ -183,7 +191,7 @@ a:active {
         left: -320px;
     }
     to {
-        left: 100px;
+        left: 18vw;
     }
 }
 
@@ -192,7 +200,7 @@ a:active {
         left: -320px;
     }
     to {
-        left: 300px;
+        left: 55vw;
     }
 }
 
@@ -308,8 +316,25 @@ a:active {
     width: 150px;
     height: 150px;
     animation-delay: 0s;
-    animation-duration: 11s;
+    animation-duration: 8s;
 }
+
+.circles li:nth-child(11) {
+    left: 60%;
+    width: 105px;
+    height: 105px;
+    animation-delay: 0s;
+    animation-duration: 15s;
+}
+
+.circles li:nth-child(12) {
+    left: 15%;
+    width: 135px;
+    height: 135px;
+    animation-delay: 0s;
+    animation-duration: 19s;
+}
+
 
 @keyframes animate {
     0% {
