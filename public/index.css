@@ -170,6 +170,14 @@ a:active {
     animation-timing-function: ease-out;
 }
 
+#ease-out2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    animation-timing-function: ease-out;
+}
+
 #ease-in-out {
     display: flex;
     flex-direction: row;
