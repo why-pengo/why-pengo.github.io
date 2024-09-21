@@ -240,7 +240,7 @@ a:active {
     width: 20px;
     height: 20px;
     background: rgba(255, 255, 255, 0.2);
-    animation: animate 25s linear infinite;
+    animation: animate_circles 25s linear infinite;
     bottom: -150px;
 }
 
@@ -336,7 +336,7 @@ a:active {
 }
 
 
-@keyframes animate {
+@keyframes animate_circles {
     0% {
         transform: translateY(0) rotate(0deg);
         opacity: 1;
@@ -344,7 +344,7 @@ a:active {
     }
 
     100% {
-        transform: translateY(-1000px) rotate(720deg);
+        transform: translateY(-99vh) rotate(720deg);
         opacity: 0;
         border-radius: 50%;
     }
