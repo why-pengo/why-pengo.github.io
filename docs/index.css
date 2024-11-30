@@ -59,6 +59,13 @@ a:active {
     border-radius: 80px; /* half the height and width */
 }
 
+#animated_image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%; /* Optional: to make the image circular */
+}
+
 @keyframes animated_div_430 {
     0% {
         transform: rotate(0deg);
@@ -77,6 +84,12 @@ a:active {
         left: 40vw;
     }
     70% {
+        transform: rotate(0deg);
+        left: 40vw;
+        background: #c8c24e;
+        color: #c8c24e;
+    }
+    85% {
         transform: rotate(0deg);
         left: 40vw;
         background: #c8c24e;
@@ -111,9 +124,41 @@ a:active {
         background: #c8c24e;
         color: #c8c24e;
     }
+    85% {
+        transform: rotate(0deg);
+        left: 80vw;
+        background: #c8c24e;
+        color: #c8c24e;
+    }
     100% {
         transform: rotate(-360deg);
         left: 0;
+    }
+}
+
+#animated_text {
+    animation: hideText 5s forwards;
+}
+
+#animated_image {
+    animation: showImage 5s forwards;
+}
+
+@keyframes hideText {
+    0%, 84% {
+        display: block !important;
+    }
+    85%, 100% {
+        display: none !important;
+    }
+}
+
+@keyframes showImage {
+    0%, 84% {
+        display: none !important;
+    }
+    85%, 100% {
+        display: block !important;
     }
 }
 
