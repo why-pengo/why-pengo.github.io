@@ -1,8 +1,0 @@
-node_modules
-dist
-docs
-*.log
-.DS_Store
-coverage
-.vite
-

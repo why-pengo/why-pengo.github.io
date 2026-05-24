@@ -5,6 +5,7 @@ node_modules/
 dist/
 docs/
 build/
+.astro/
 
 # Environment variables
 .env

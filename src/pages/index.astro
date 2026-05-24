@@ -1,0 +1,142 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import AnimatedBackground from '../components/AnimatedBackground.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import SkillChip from '../components/SkillChip.astro';
+import ContactLink from '../components/ContactLink.astro';
+import { contacts, profile, projects, skills } from '../data/projects';
+---
+
+<BaseLayout
+  title="Jon Morgan - Remote Developer"
+  description="Jon Morgan - Remote Developer Portfolio. Python, TypeScript, CSS. Showcasing various web development projects."
+>
+  <AnimatedBackground />
+
+  <main class="wrap">
+    <article class="card">
+      <header class="header">
+        <img class="avatar" src={profile.avatar} alt={profile.name} />
+        <div>
+          <h1 class="name">{profile.name}</h1>
+          <p class="role">{profile.role}</p>
+        </div>
+      </header>
+
+      <p class="bio">{profile.bio}</p>
+
+      <p class="section-label">Projects</p>
+      <div class="projects">
+        {projects.map((project) => <ProjectCard project={project} />)}
+      </div>
+
+      <p class="section-label">Skills</p>
+      <div class="chips">
+        {skills.map((skill) => <SkillChip label={skill} />)}
+      </div>
+
+      <p class="section-label">Contact</p>
+      <div class="contact">
+        {contacts.map((c) => <ContactLink label={c.label} url={c.url} />)}
+      </div>
+    </article>
+  </main>
+</BaseLayout>
+
+<style>
+  .wrap {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 720px;
+    background: var(--color-card-bg);
+    backdrop-filter: blur(24px) saturate(140%);
+    -webkit-backdrop-filter: blur(24px) saturate(140%);
+    border: 1px solid var(--color-card-border);
+    border-radius: 20px;
+    padding: 2.5rem;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--color-accent);
+    box-shadow: 0 0 24px var(--color-accent-glow);
+  }
+  .name {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .role {
+    margin: 0.15rem 0 0;
+    font-size: 0.95rem;
+    color: var(--color-text-dim);
+  }
+
+  .bio {
+    color: var(--color-text-dim);
+    line-height: 1.55;
+    margin: 0 0 2rem;
+    font-size: 0.95rem;
+  }
+
+  .section-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin: 0 0 0.75rem;
+  }
+
+  .projects {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .contact {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 520px) {
+    .projects {
+      grid-template-columns: 1fr;
+    }
+    .card {
+      padding: 1.75rem;
+    }
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

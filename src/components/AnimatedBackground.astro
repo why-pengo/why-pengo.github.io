@@ -1,0 +1,41 @@
+---
+const blobs = [
+  { left: '8%', size: 120, delay: '0s', duration: '28s' },
+  { left: '22%', size: 60, delay: '4s', duration: '20s' },
+  { left: '38%', size: 90, delay: '9s', duration: '28s' },
+  { left: '55%', size: 160, delay: '2s', duration: '36s' },
+  { left: '70%', size: 70, delay: '14s', duration: '28s' },
+  { left: '85%', size: 110, delay: '6s', duration: '32s' },
+  { left: '15%', size: 50, delay: '18s', duration: '28s' },
+  { left: '60%', size: 80, delay: '22s', duration: '28s' },
+] as const;
+---
+
+<div class="bg" aria-hidden="true">
+  {
+    blobs.map((b) => (
+      <span
+        style={`left:${b.left};width:${b.size}px;height:${b.size}px;animation-delay:${b.delay};animation-duration:${b.duration};`}
+      />
+    ))
+  }
+</div>
+
+<style>
+  .bg {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+  }
+  .bg span {
+    position: absolute;
+    bottom: -200px;
+    display: block;
+    background: var(--color-accent-glow);
+    border-radius: 50%;
+    filter: blur(40px);
+    animation: rise 28s linear infinite;
+  }
+</style>
