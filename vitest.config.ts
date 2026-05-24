@@ -1,28 +1,14 @@
-import { defineConfig } from 'vitest/config';
-import { resolve } from 'path';
+/// <reference types="vitest/config" />
+import { getViteConfig } from 'astro/config';
 
-export default defineConfig({
+export default getViteConfig({
   test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: ['./src/test/setup.ts'],
+    environment: 'node',
+    include: ['src/test/**/*.test.ts'],
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'json', 'html'],
-      exclude: [
-        'node_modules/',
-        'src/test/',
-        '**/*.d.ts',
-        '**/*.config.*',
-        '**/dist/**',
-        '**/docs/**',
-      ],
-    },
-  },
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, './src'),
+      reporter: ['text', 'html'],
+      reportsDirectory: 'coverage',
     },
   },
 });
-
