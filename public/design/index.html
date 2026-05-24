@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Design discovery · Jon Morgan</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 3rem 1.5rem;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: #0b0b14;
+    color: #ededf2;
+    min-height: 100vh;
+  }
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 1.75rem;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.01em;
+  }
+  .sub {
+    color: rgba(237, 237, 242, 0.6);
+    margin: 0 0 2.5rem;
+    line-height: 1.5;
+  }
+  .sub code {
+    background: rgba(255, 255, 255, 0.06);
+    padding: 0.1rem 0.35rem;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+  .grid {
+    display: grid;
+    gap: 1rem;
+  }
+  a.card {
+    display: block;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    color: #ededf2;
+    text-decoration: none;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  a.card:hover {
+    border-color: #c4b5fd;
+    transform: translateY(-2px);
+  }
+  a.card h2 {
+    margin: 0 0 0.4rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  a.card p {
+    margin: 0;
+    color: rgba(237, 237, 242, 0.65);
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .label {
+    display: inline-block;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: #c4b5fd;
+    margin-bottom: 0.25rem;
+  }
+  footer {
+    margin-top: 3rem;
+    color: rgba(237, 237, 242, 0.4);
+    font-size: 0.85rem;
+  }
+  footer a { color: rgba(237, 237, 242, 0.6); }
+</style>
+</head>
+<body>
+  <main>
+    <h1>Design discovery</h1>
+    <p class="sub">
+      Three throwaway sketches for the portfolio redesign (<a href="https://github.com/why-pengo/why-pengo.github.io/issues/9" style="color: #c4b5fd;">issue #9</a>).
+      All within the dark + animated family. Same content across all three so the design is the only variable.
+    </p>
+
+    <div class="grid">
+      <a class="card" href="./a-refined-card/index.html">
+        <span class="label">Direction A</span>
+        <h2>Refined Card</h2>
+        <p>Modernized take on today's centered card. Glassmorphism, refined type, 2×2 project grid inside a single card. Closest to today's site.</p>
+      </a>
+
+      <a class="card" href="./b-sectioned/index.html">
+        <span class="label">Direction B</span>
+        <h2>Sectioned Scroll</h2>
+        <p>Full-page sections (Hero / About / Projects / Skills / Contact) with drifting blob background. Most expandable.</p>
+      </a>
+
+      <a class="card" href="./c-terminal/index.html">
+        <span class="label">Direction C</span>
+        <h2>Terminal / Dev</h2>
+        <p>Monospace, terminal-window aesthetic with subtle CRT scanlines. Most distinctive; signals "developer" loudest.</p>
+      </a>
+    </div>
+
+    <footer>
+      Throwaway sketches — placeholder bio copy. Bin once a direction is picked.
+    </footer>
+  </main>
+</body>
+</html>

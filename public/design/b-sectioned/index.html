@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Direction B — Sectioned Scroll · Jon Morgan</title>
+<style>
+  :root {
+    --bg-1: #0b0b14;
+    --bg-2: #15152b;
+    --text: #ededf2;
+    --text-dim: rgba(237, 237, 242, 0.6);
+    --accent: #c4b5fd;
+    --accent-2: #f0abfc;
+    --border: rgba(255, 255, 255, 0.07);
+    --card-bg: rgba(255, 255, 255, 0.025);
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--text);
+    background: var(--bg-1);
+    overflow-x: hidden;
+  }
+
+  /* Animated blobs — slower, larger, parallax feel via scaled-down opacity */
+  .bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    animation: drift 30s ease-in-out infinite;
+  }
+  .blob:nth-child(1) { top: 10%; left: 5%;  width: 360px; height: 360px; background: var(--accent);   animation-delay: 0s; }
+  .blob:nth-child(2) { top: 35%; left: 65%; width: 300px; height: 300px; background: var(--accent-2); animation-delay: -10s; }
+  .blob:nth-child(3) { top: 70%; left: 20%; width: 420px; height: 420px; background: #818cf8;         animation-delay: -20s; }
+  .blob:nth-child(4) { top: 50%; left: 80%; width: 260px; height: 260px; background: var(--accent);   animation-delay: -5s; }
+
+  @keyframes drift {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33%      { transform: translate(60px, -40px) scale(1.1); }
+    66%      { transform: translate(-40px, 50px) scale(0.95); }
+  }
+
+  /* Vertical dot nav */
+  .nav {
+    position: fixed;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .nav a {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+  .nav a:hover { background: var(--accent); transform: scale(1.4); }
+
+  main { position: relative; z-index: 1; }
+
+  section {
+    min-height: 100vh;
+    padding: 6rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 1rem;
+    font-weight: 600;
+  }
+  h1 {
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 1.5rem;
+    font-weight: 700;
+  }
+  h1 span {
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  h2 {
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    letter-spacing: -0.015em;
+    margin: 0 0 1.5rem;
+    font-weight: 600;
+  }
+  p.lead {
+    font-size: 1.2rem;
+    color: var(--text-dim);
+    max-width: 640px;
+    line-height: 1.55;
+    margin: 0 0 2rem;
+  }
+
+  /* Hero */
+  #hero { padding-top: 0; }
+  .hero-row {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  .hero-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent);
+    box-shadow: 0 0 40px rgba(196, 181, 253, 0.3);
+    flex-shrink: 0;
+  }
+
+  /* About */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 3rem;
+    align-items: start;
+  }
+  .about-grid p {
+    color: var(--text-dim);
+    line-height: 1.7;
+    font-size: 1.05rem;
+    margin: 0 0 1rem;
+  }
+
+  /* Projects */
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+  }
+  .project {
+    display: block;
+    padding: 1.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    text-decoration: none;
+    color: var(--text);
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .project:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent);
+    background: rgba(196, 181, 253, 0.05);
+  }
+  .project h3 { margin: 0 0 0.5rem; font-size: 1.1rem; font-weight: 600; }
+  .project p  { margin: 0; color: var(--text-dim); font-size: 0.9rem; line-height: 1.5; }
+  .project .arrow {
+    display: inline-block;
+    margin-top: 0.75rem;
+    color: var(--accent);
+    font-size: 0.85rem;
+  }
+
+  /* Skills */
+  .skill-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.75rem;
+  }
+  .skill {
+    padding: 1rem 1.25rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  /* Contact */
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .contact-row a {
+    padding: 1rem 2rem;
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.2s ease;
+  }
+  .contact-row a:hover { background: rgba(196, 181, 253, 0.1); }
+
+  @media (max-width: 720px) {
+    .nav { display: none; }
+    .hero-row { flex-direction: column; align-items: flex-start; }
+    .about-grid { grid-template-columns: 1fr; gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true">
+    <div class="blob"></div><div class="blob"></div>
+    <div class="blob"></div><div class="blob"></div>
+  </div>
+
+  <nav class="nav" aria-label="Section navigation">
+    <a href="#hero" title="Top"></a>
+    <a href="#about" title="About"></a>
+    <a href="#projects" title="Projects"></a>
+    <a href="#skills" title="Skills"></a>
+    <a href="#contact" title="Contact"></a>
+  </nav>
+
+  <main>
+    <section id="hero">
+      <p class="eyebrow">Portfolio</p>
+      <div class="hero-row">
+        <img class="hero-avatar" src="/profile.png" alt="Jon Morgan" />
+        <div>
+          <h1>Jon Morgan,<br/><span>remote developer.</span></h1>
+          <p class="lead">Building web apps, side projects, and the occasional sprinkler controller.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <p class="eyebrow">About</p>
+      <h2>What I do</h2>
+      <div class="about-grid">
+        <div></div>
+        <div>
+          <p>
+            [Placeholder bio] I'm a remote developer working primarily in Python and TypeScript.
+            By day I build full-stack web applications; by night I tinker with games,
+            sensors, and local LLMs.
+          </p>
+          <p>
+            I care about code that's straightforward, tools that get out of the way, and shipping
+            small things often.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <p class="eyebrow">Projects</p>
+      <h2>Things I've built</h2>
+      <div class="project-grid">
+        <a class="project" href="https://why-pengo.github.io/angular-sudoku3/" target="_blank" rel="noopener noreferrer">
+          <h3>Sudoku</h3>
+          <p>Sudoku web app in Angular v21 using Signals.</p>
+          <span class="arrow">Play →</span>
+        </a>
+        <a class="project" href="https://github.com/why-pengo/daglint" target="_blank" rel="noopener noreferrer">
+          <h3>Daglint</h3>
+          <p>A linting tool for Apache Airflow DAGs using Python's AST to enforce standardization and best practices.</p>
+          <span class="arrow">View on GitHub →</span>
+        </a>
+        <a class="project" href="https://github.com/why-pengo/sprinkler" target="_blank" rel="noopener noreferrer">
+          <h3>Sprinkler ][</h3>
+          <p>Raspberry Pi controller for home irrigation.</p>
+          <span class="arrow">View on GitHub →</span>
+        </a>
+        <a class="project" href="https://github.com/why-pengo/llamaIndexPlayground" target="_blank" rel="noopener noreferrer">
+          <h3>RAG Playground</h3>
+          <p>Local LLM retrieval-augmented generation experiments with LlamaIndex.</p>
+          <span class="arrow">View on GitHub →</span>
+        </a>
+      </div>
+    </section>
+
+    <section id="skills">
+      <p class="eyebrow">Stack</p>
+      <h2>Tools I reach for</h2>
+      <div class="skill-grid">
+        <div class="skill">Python</div>
+        <div class="skill">TypeScript</div>
+        <div class="skill">Django</div>
+        <div class="skill">Vite</div>
+        <div class="skill">PostgreSQL</div>
+        <div class="skill">Docker</div>
+        <div class="skill">CSS</div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <p class="eyebrow">Contact</p>
+      <h2>Say hi</h2>
+      <p class="lead">Open to interesting work and conversations.</p>
+      <div class="contact-row">
+        <a href="https://www.linkedin.com/in/jon-p-morgan" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/why-pengo" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

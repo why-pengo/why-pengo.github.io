@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Direction C — Terminal · Jon Morgan</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --bg-soft: #161b22;
+    --border: #30363d;
+    --text: #c9d1d9;
+    --text-dim: #8b949e;
+    --green: #7ee787;
+    --cyan: #79c0ff;
+    --yellow: #ffd23f;
+    --magenta: #d2a8ff;
+    --red: #ff7b72;
+    --prompt: var(--green);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    min-height: 100%;
+    font-family: "SF Mono", "JetBrains Mono", "Fira Code", "Cascadia Code", Menlo, Consolas, monospace;
+    color: var(--text);
+    background: var(--bg);
+    font-size: 14px;
+    line-height: 1.55;
+    overflow-x: hidden;
+  }
+
+  /* Subtle CRT scanlines as the "animation" */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 2px,
+      rgba(255, 255, 255, 0.012) 2px,
+      rgba(255, 255, 255, 0.012) 4px
+    );
+    z-index: 2;
+  }
+  /* Slow horizontal sweep */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      transparent 0%,
+      rgba(126, 231, 135, 0.04) 50%,
+      transparent 100%
+    );
+    background-size: 100% 8px;
+    animation: scan 8s linear infinite;
+    z-index: 1;
+  }
+  @keyframes scan {
+    0%   { transform: translateY(-100vh); }
+    100% { transform: translateY(100vh); }
+  }
+
+  .term {
+    position: relative;
+    z-index: 3;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* Window chrome */
+  .chrome {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 8px 8px 0 0;
+    padding: 0.6rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+  .dot.r { background: #ff5f56; }
+  .dot.y { background: #ffbd2e; }
+  .dot.g { background: #27c93f; }
+  .chrome .title {
+    flex: 1;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+  }
+
+  .screen {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 1.5rem;
+    min-height: 70vh;
+  }
+
+  .cmd { margin: 1.5rem 0 0.5rem; }
+  .cmd:first-child { margin-top: 0; }
+  .prompt { color: var(--prompt); }
+  .user { color: var(--cyan); }
+  .at { color: var(--text-dim); }
+  .host { color: var(--magenta); }
+  .path { color: var(--yellow); }
+  .input { color: var(--text); }
+
+  .out { color: var(--text-dim); margin-left: 0; }
+  .out .k { color: var(--cyan); }
+  .out .v { color: var(--text); }
+  .out a { color: var(--green); text-decoration: none; border-bottom: 1px dotted var(--green); }
+  .out a:hover { color: var(--cyan); border-bottom-color: var(--cyan); }
+
+  /* ls-style project listing */
+  .ls {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.5rem 1.5rem;
+    margin: 0.5rem 0;
+  }
+  .ls a {
+    color: var(--cyan);
+    text-decoration: none;
+  }
+  .ls a:hover { color: var(--yellow); }
+  .ls .desc { color: var(--text-dim); display: block; font-size: 0.85em; margin-top: 0.1rem; }
+
+  /* skills as a piped list */
+  .pipes { color: var(--text); }
+  .pipes .sep { color: var(--text-dim); margin: 0 0.4rem; }
+
+  /* contact links list */
+  .links { margin: 0.5rem 0; padding-left: 1rem; }
+  .links li {
+    list-style: none;
+    margin: 0.25rem 0;
+  }
+  .links li::before {
+    content: "▸ ";
+    color: var(--green);
+  }
+  .links a { color: var(--cyan); text-decoration: none; }
+  .links a:hover { color: var(--yellow); }
+
+  /* blinking cursor */
+  .cursor {
+    display: inline-block;
+    width: 0.5em;
+    height: 1em;
+    background: var(--green);
+    vertical-align: text-bottom;
+    margin-left: 2px;
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .avatar-ascii {
+    color: var(--text-dim);
+    font-size: 0.7rem;
+    line-height: 1;
+    white-space: pre;
+    margin-bottom: 0.5rem;
+  }
+
+  hr.div {
+    border: none;
+    border-top: 1px dashed var(--border);
+    margin: 1.5rem 0;
+  }
+</style>
+</head>
+<body>
+  <div class="term">
+    <div class="chrome">
+      <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+      <span class="title">jon@portfolio: ~</span>
+    </div>
+    <div class="screen">
+
+      <div class="cmd">
+        <span class="prompt">$</span>
+        <span class="input">whoami</span>
+      </div>
+      <div class="out">
+        <span class="k">name</span>: <span class="v">Jon Morgan</span><br/>
+        <span class="k">role</span>: <span class="v">Remote Developer</span><br/>
+        <span class="k">location</span>: <span class="v">remote / async</span>
+      </div>
+
+      <div class="cmd">
+        <span class="prompt">$</span>
+        <span class="input">cat about.txt</span>
+      </div>
+      <div class="out">
+        [Placeholder bio] Remote developer working primarily in Python and TypeScript.<br/>
+        I build web apps by day and tinker with games, sensors, and AI tooling by night.
+      </div>
+
+      <hr class="div" />
+
+      <div class="cmd">
+        <span class="prompt">$</span>
+        <span class="input">ls -l projects/</span>
+      </div>
+      <div class="ls">
+        <div>
+          <a href="https://why-pengo.github.io/angular-sudoku3/" target="_blank" rel="noopener noreferrer">sudoku/</a>
+          <span class="desc">Angular v21 sudoku with Signals</span>
+        </div>
+        <div>
+          <a href="https://github.com/why-pengo/daglint" target="_blank" rel="noopener noreferrer">daglint/</a>
+          <span class="desc">Airflow DAG linting via AST</span>
+        </div>
+        <div>
+          <a href="https://github.com/why-pengo/sprinkler" target="_blank" rel="noopener noreferrer">sprinkler-2/</a>
+          <span class="desc">Raspberry Pi irrigation</span>
+        </div>
+        <div>
+          <a href="https://github.com/why-pengo/llamaIndexPlayground" target="_blank" rel="noopener noreferrer">rag-playground/</a>
+          <span class="desc">Local LLM RAG w/ LlamaIndex</span>
+        </div>
+      </div>
+
+      <hr class="div" />
+
+      <div class="cmd">
+        <span class="prompt">$</span>
+        <span class="input">cat skills.txt</span>
+      </div>
+      <div class="out pipes">
+        Python <span class="sep">|</span>
+        TypeScript <span class="sep">|</span>
+        Django <span class="sep">|</span>
+        Vite <span class="sep">|</span>
+        PostgreSQL <span class="sep">|</span>
+        Docker <span class="sep">|</span>
+        CSS
+      </div>
+
+      <hr class="div" />
+
+      <div class="cmd">
+        <span class="prompt">$</span>
+        <span class="input">contact --list</span>
+      </div>
+      <ul class="links">
+        <li><a href="https://www.linkedin.com/in/jon-p-morgan" target="_blank" rel="noopener noreferrer">linkedin.com/in/jon-p-morgan</a></li>
+        <li><a href="https://github.com/why-pengo" target="_blank" rel="noopener noreferrer">github.com/why-pengo</a></li>
+      </ul>
+
+      <div class="cmd">
+        <span class="prompt">$</span><span class="cursor"></span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
