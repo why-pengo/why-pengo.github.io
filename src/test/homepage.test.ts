@@ -22,7 +22,7 @@ describe('homepage', () => {
     expect(doc.body.textContent).toContain(profile.bio);
   });
 
-  it('renders all four sections (Projects, Skills, Contact)', () => {
+  it('renders Projects, Skills, and Contact section headings in order', () => {
     const labels = Array.from(doc.querySelectorAll('.section-label')).map((n) => n.textContent);
     expect(labels).toEqual(['Projects', 'Skills', 'Contact']);
   });

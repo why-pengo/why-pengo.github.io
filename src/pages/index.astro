@@ -25,20 +25,26 @@ import { contacts, profile, projects, skills } from '../data/projects';
 
       <p class="bio">{profile.bio}</p>
 
-      <p class="section-label">Projects</p>
-      <div class="projects">
-        {projects.map((project) => <ProjectCard project={project} />)}
-      </div>
+      <section aria-labelledby="projects-heading">
+        <h2 id="projects-heading" class="section-label">Projects</h2>
+        <div class="projects">
+          {projects.map((project) => <ProjectCard project={project} />)}
+        </div>
+      </section>
 
-      <p class="section-label">Skills</p>
-      <div class="chips">
-        {skills.map((skill) => <SkillChip label={skill} />)}
-      </div>
+      <section aria-labelledby="skills-heading">
+        <h2 id="skills-heading" class="section-label">Skills</h2>
+        <div class="chips">
+          {skills.map((skill) => <SkillChip label={skill} />)}
+        </div>
+      </section>
 
-      <p class="section-label">Contact</p>
-      <div class="contact">
-        {contacts.map((c) => <ContactLink label={c.label} url={c.url} />)}
-      </div>
+      <section aria-labelledby="contact-heading">
+        <h2 id="contact-heading" class="section-label">Contact</h2>
+        <div class="contact">
+          {contacts.map((c) => <ContactLink label={c.label} url={c.url} />)}
+        </div>
+      </section>
     </article>
   </main>
 </BaseLayout>
