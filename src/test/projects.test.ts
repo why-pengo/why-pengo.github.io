@@ -10,15 +10,20 @@ describe('profile', () => {
   it('does not contain placeholder text', () => {
     expect(profile.bio.toLowerCase()).not.toContain('placeholder');
   });
+
+  it('does not mention django in bio', () => {
+    expect(profile.bio.toLowerCase()).not.toContain('django');
+  });
 });
 
 describe('projects', () => {
-  it('contains the four expected projects in order', () => {
+  it('contains the five expected projects in order', () => {
     expect(projects.map((p) => p.title)).toEqual([
-      'Sudoku',
-      'Daglint',
-      'Sprinkler ][',
+      'Claude + Ollama',
       'RAG Playground',
+      'MTG OCR',
+      'Daglint',
+      'Sudoku',
     ]);
   });
 
@@ -34,6 +39,12 @@ describe('projects', () => {
 describe('skills', () => {
   it('contains at least one skill', () => {
     expect(skills.length).toBeGreaterThan(0);
+  });
+
+  it('does not include django or vite', () => {
+    const lowerSkills = skills.map((s) => s.toLowerCase());
+    expect(lowerSkills).not.toContain('django');
+    expect(lowerSkills).not.toContain('vite');
   });
 });
 
