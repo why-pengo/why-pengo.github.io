@@ -6,9 +6,19 @@ export interface Project {
 
 export const projects: readonly Project[] = [
   {
-    title: 'Sudoku',
-    description: 'Sudoku web app in Angular v21 using Signals.',
-    url: 'https://why-pengo.github.io/angular-sudoku3/',
+    title: 'Claude + Ollama',
+    description: 'Two-agent coding harness: Claude Code plans, a local Ollama model executes.',
+    url: 'https://github.com/why-pengo/claude_and_ollama',
+  },
+  {
+    title: 'RAG Playground',
+    description: 'Local LLM retrieval experiments with LlamaIndex.',
+    url: 'https://github.com/why-pengo/llamaIndexPlayground',
+  },
+  {
+    title: 'MTG OCR',
+    description: 'Benchmarking four OCR engines on Magic card scans, with fuzzy Scryfall lookup.',
+    url: 'https://github.com/why-pengo/mtg_ocr_poc',
   },
   {
     title: 'Daglint',
@@ -16,25 +26,21 @@ export const projects: readonly Project[] = [
     url: 'https://github.com/why-pengo/daglint',
   },
   {
-    title: 'Sprinkler ][',
-    description: 'Raspberry Pi home irrigation controller.',
-    url: 'https://github.com/why-pengo/sprinkler',
-  },
-  {
-    title: 'RAG Playground',
-    description: 'Local LLM retrieval experiments with LlamaIndex.',
-    url: 'https://github.com/why-pengo/llamaIndexPlayground',
+    title: 'Sudoku',
+    description: 'Sudoku web app in Angular v21 using Signals.',
+    url: 'https://why-pengo.github.io/angular-sudoku3/',
   },
 ] as const;
 
 export const skills: readonly string[] = [
   'Python',
+  'LLMs',
+  'RAG',
+  'AI Agents',
   'TypeScript',
-  'Django',
-  'Vite',
+  'Apache Airflow',
   'PostgreSQL',
   'Docker',
-  'CSS',
 ] as const;
 
 export const contacts: readonly { label: string; url: string }[] = [
@@ -45,6 +51,6 @@ export const contacts: readonly { label: string; url: string }[] = [
 export const profile = {
   name: 'Jon Morgan',
   role: 'Remote Developer',
-  bio: 'Remote developer working primarily in Python and TypeScript. I build web apps by day and tinker with games, sensors, and AI tooling by night.',
+  bio: 'Remote developer working primarily in Python, focused on AI tooling — local LLMs, retrieval, and agent workflows that actually ship. TypeScript and web apps when the job calls for it; games and sensors when it doesn’t.',
   avatar: '/profile.png',
 } as const;
